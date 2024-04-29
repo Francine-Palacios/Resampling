@@ -1,4 +1,4 @@
-plotly==5.9.0
+plotly
 numpy
 scikit-learn
 pandas
