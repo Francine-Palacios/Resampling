@@ -183,11 +183,7 @@ def jackknife_regresion_lineal(X,y, test_s_lineal):
     st.table(test_resumen)
 
 
-    st.markdown("""
-    Y como ya habíamos sospechado, las estimaciones de parámetros de la intersección son simplemente aleatorias, es decir, las estimaciones de parámetros de la intersección en las submuestras del Jackknife simplemente ocurrieron por *casualidad*.
-
-    **Como consecuencia, se rechaza todo el modelo.**
-                """)
+   
     st.subheader("Prediccion")
 
     #### Prediccion normal #####
