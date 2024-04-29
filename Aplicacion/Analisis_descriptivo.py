@@ -89,7 +89,6 @@ def analisis_descriptivo(df_data):
 
 
     fig = px.scatter_matrix(df_data,
-                            dimensions=['GRE Score', 'TOEFL Score', 'University Rating', 'SOP', 'LOR ', 'CGPA', 'Research'],
                             color='Chance of Admit ',
                             title="Matriz de Dispersión: Correlaciones entre Variables")
 
