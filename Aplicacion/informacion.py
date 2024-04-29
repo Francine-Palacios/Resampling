@@ -35,7 +35,7 @@ def informacion():
     st.info("""
     "Para algunos perfiles, pregunté a los solicitantes qué tan seguros estaban de ser admitidos en términos de porcentaje. Agregué un decimal adicional para aumentar la precisión. Para el resto de los datos, dado que la regresión es un aprendizaje supervisado, proporcioné valores que realmente fueran comprensibles y tuvieran suficiente sentido"
     """)
-    st.write("Para más información, visita la página del conjunto de datos en Kaggle.")
+    st.write("Para más información, visita la página del conjunto de datos en [Kaggle](https://www.kaggle.com/datasets/mohansacharya/graduate-admissions/data?select=Admission_Predict.csv)")
 
 
     return None 

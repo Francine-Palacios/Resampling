@@ -1,4 +1,4 @@
 plotly
 numpy
 scikit-learn
-pandas
+pandas== 2.1.1
