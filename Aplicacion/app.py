@@ -30,11 +30,11 @@ with col3:
 _, col2, _ = st.columns([1,6,1])
 
 with col2:
-    st.title('Análisis descriptivo de Arizona’s Copper Deposit (KD)')
+    st.title('Graduate Admission')
 
 
 texto_descripcion = """
-Ests aplicacion está dedicado al análisis exhaustivo de los parámetros obtenidos de un modelo de **regresión logística**. Se emplea el método de remuestreo Jackknife para estimar la precisión y la confiabilidad de los parámetros estimados. El conjunto de datos utilizado proviene de registros de admisión a programas de posgrado, el cual está disponible para el público por la plataforma [kaggle](https://www.kaggle.com/) 
+Ests aplicacion está dedicado al análisis exhaustivo de los parámetros obtenidos de un modelo de **regresión logística** y de **regresion lineal**. Se emplea el método de remuestreo Jackknife para estimar la precisión y la confiabilidad de los parámetros estimados. El conjunto de datos utilizado proviene de registros de admisión a programas de posgrado, el cual está disponible para el público por la plataforma [kaggle](https://www.kaggle.com/) 
 """
 
 
