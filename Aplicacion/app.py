@@ -98,7 +98,7 @@ InfoTab,Analisis,jackknif = st.tabs(["Información","Analisis Descriptivo", 'Jac
 ##################################################################################################
 ############## Tabla con los datos ############################################
 ##################################################################################################
-path=r'C:\Users\Francine Palacios\Desktop\Topicos Avanzados\Resampling\Data\Admission_Predict_Ver1.1.csv'
+path='https://github.com/Francine-Palacios/Resampling/blob/417e51132ad4f4c3a3af1fd46e6439d79bfdea81/Data/Admission_Predict_Ver1.1.csv'
 df_data= pd.read_csv(path)
 df_data = df_data.drop(columns=['Serial No.'])
    
