@@ -27,7 +27,7 @@ with col3:
 
 
 
-_, col2, _ = st.columns([1,6,1])
+_, col2, _ = st.columns([1,3,1])
 
 with col2:
     st.title('Graduate Admission')
