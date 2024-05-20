@@ -6,6 +6,9 @@ import plotly.express as px
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import plotly.figure_factory as ff
 from sklearn.linear_model import LogisticRegression
+from plotly.subplots import make_subplots  
+import plotly.graph_objects as go
+ 
 
 
 from Funciones_regresion_logistica import estimator_fn
@@ -39,26 +42,69 @@ def jackknife_regresion_logistica(X,y,test_s):
 
     st.subheader("Plot de resultados")
     ###### Grafico de caja de los parametros #####
-    st.subheader('Boxplot de los parametros')
+    # st.subheader('Boxplot de los parametros')
     num_features = len(params[0])  
     features = ['intercept'] + [f'beta_{i}' for i in range(1, num_features)]  
     df_params = pd.DataFrame(params, columns=features)
-    with st.expander("Parametros"):
-        st.markdown("Para los graficos de Boxplot de los parametros, seleccione las columnas de interes")
-        if st.checkbox("Todo"):
-            features_ =['intercept'] + [f'beta_{i}' for i in range(1, num_features)]  
+    # with st.expander("Parametros"):
+    #     st.markdown("Para los graficos de Boxplot de los parametros, seleccione las columnas de interes")
+    #     if st.checkbox("Todo"):
+    #         features_ =['intercept'] + [f'beta_{i}' for i in range(1, num_features)]  
 
-        else:
-            columnas=st.multiselect('Seleccione aquellas columnas que le interesan para el boxplot de los parametros ', ['intercept'] + [f'beta_{i}' for i in range(1, num_features)]  
+    #     else:
+    #         columnas=st.multiselect('Seleccione aquellas columnas que le interesan para el boxplot de los parametros ', ['intercept'] + [f'beta_{i}' for i in range(1, num_features)]  
+    #     )
+    #         features_=columnas
+    # if len(features_)== 0:
+    #     st.warning("Seleccione parametros para el boxplot")
+
+    # for feature in features_:
+    #     fig = px.box(df_params, y=feature, color_discrete_sequence=['lightseagreen'])
+    #     fig.update_layout(title=feature, yaxis_title="Valor")
+    #     st.plotly_chart(fig, use_container_width=True)
+
+    # ###########
+    st.subheader('Boxplot de los parametros')
+
+
+    total_distribuciones = len(df_params.columns)
+
+    num_filas = (total_distribuciones + 1) // 2
+
+    fig = make_subplots(rows=num_filas, cols=2, subplot_titles=[rf'$\\theta$_{i+1}' for i in range(total_distribuciones)])
+
+    for i, distribution in enumerate(df_params.columns):
+        fig.add_trace(
+            go.Histogram(
+                x=df_params[distribution],
+                nbinsx=30,  
+                marker=dict(
+                    line=dict(width=1, color='black') 
+                ),
+                name=rf'$\\theta_{i+1}$'  
+            ),
+            row=(i // 2) + 1,  
+            col=(i % 2) + 1    
         )
-            features_=columnas
-    if len(features_)== 0:
-        st.warning("Seleccione parametros para el boxplot")
 
-    for feature in features_:
-        fig = px.box(df_params, y=feature, color_discrete_sequence=['lightseagreen'])
-        fig.update_layout(title=feature, yaxis_title="Valor")
-        st.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(
+        title_text='Histogramas de Distribuciones Bootstrap de las estimacion de los parametros de la regresion logistica',
+        showlegend=False,
+        title_x=0,  
+        title_font_size=24  
+    )
+
+    for i in fig['layout']['annotations']:
+        i['font'] = dict(size=18)  
+    fig.update_layout(height=800)  
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
+
+
+
+    ####################################33
     st.subheader('Jackknife')
 
     st.markdown("""
@@ -118,11 +164,15 @@ def jackknife_regresion_logistica(X,y,test_s):
                 """)
 
     clf = LogisticRegression(
-        max_iter=100,
+        max_iter=60000,
         fit_intercept=True,    # Incluir el término de sesgo (intercept)
         )
 
     clf.fit( X_train,y_train)
+
+    st.dataframe(X_train)
+    st.dataframe(y_train)
+
     theta_all= np.append(clf.intercept_,clf.coef_)
 
     st.table(pd.DataFrame([theta_all], columns=features))

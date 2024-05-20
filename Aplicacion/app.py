@@ -3,6 +3,8 @@ from informacion import informacion
 from Analisis_descriptivo import analisis_descriptivo
 from Jackknife_Regresion_logistica import jackknife_regresion_logistica
 from Jackknife_Regresion_lineal import jackknife_regresion_lineal
+from Bootstra_Regresion_Lineal import bootstrap_regresion_lineal
+from Bootstra_Regresion_Logistica import bootstrap_regresion_logistica
 import pandas as pd
 
 import numpy as np
@@ -13,7 +15,7 @@ import numpy as np
 ########################################################################
 
 
-st.set_page_config(page_title='Jackknife', layout='wide',
+st.set_page_config(page_title='Tecnicas de Remuestreo', layout='wide',
                 #    initial_sidebar_state=st.session_state.get('sidebar_state', 'collapsed'),
 )
 
@@ -30,11 +32,11 @@ with col3:
 _, col2, _ = st.columns([1,3,1])
 
 with col2:
-    st.title('Graduate Admission')
+    st.title('Tecnicas de Remuestreo')
 
 
 texto_descripcion = """
-Ests aplicacion está dedicado al análisis exhaustivo de los parámetros obtenidos de un modelo de **regresión logística** y de **regresion lineal**. Se emplea el método de remuestreo Jackknife para estimar la precisión y la confiabilidad de los parámetros estimados. El conjunto de datos utilizado proviene de registros de admisión a programas de posgrado, el cual está disponible para el público por la plataforma [kaggle](https://www.kaggle.com/) 
+Ests aplicacion está dedicado al análisis exhaustivo de los parámetros obtenidos de un modelo de **regresión logística** y de **regresion lineal**. Se emplea los métodos de remuestreo Jackknife y Bootstrap para estimar la precisión y la confiabilidad de los parámetros estimados. El conjunto de datos utilizado proviene de registros de admisión a programas de posgrado 'Graduate Admission', el cual está disponible para el público por la plataforma [kaggle](https://www.kaggle.com/) 
 """
 
 
@@ -60,26 +62,13 @@ with exp_col:
 ########################################################################
 
 
-#########################################################################
-################## Barra lateral#########################################
-#########################################################################
-
-
-##################### Informacion en la side bar ########################
-        
-st.sidebar.title("Jackknife y Bootstrap")
-st.sidebar.caption("Universidad Tecnica Federico Santa María")
-
-
-#########################################################################
-
 ################### Subida de archivo de datos###################################
 # uploaded_file = st.sidebar.file_uploader("Cargar el archivo de datos")
 
 # if uploaded_file is None:
       # st.warning('Favor subir el archivo de datos')
 
-InfoTab,Analisis,jackknif = st.tabs(["Información","Analisis Descriptivo", 'Jackknife'])
+InfoTab,Analisis,jackknif, boots = st.tabs(["Información","Analisis Descriptivo", 'Jackknife', 'Bootstrap'])
 
 
 #########################################################################
@@ -137,7 +126,13 @@ with jackknif:
         jackknife_regresion_logistica(X,y, test_s)
 
 
+with boots:
+    Regresion_lineal_boots, Regresion_logistica_boots = st.tabs(['Regresion Lineal', "Regresion Logistica"])
 
+    with Regresion_lineal_boots:
+        bootstrap_regresion_lineal()
+    with Regresion_logistica_boots:
+        bootstrap_regresion_logistica()
 
 
 

@@ -40,13 +40,13 @@ def estadistica_interes(*args):
     X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42)
 
-    clf = make_pipeline(StandardScaler(), LogisticRegression())
-    # clf = LogisticRegression(
-    #     max_iter= 60000, 
-    # fit_intercept=True,# Incluir el término de sesgo (intercept)
-    # )
+    # clf = make_pipeline(StandardScaler(), LogisticRegression())
+    clf = LogisticRegression(
+         max_iter= 60000, 
+     fit_intercept=True,# Incluir el término de sesgo (intercept)
+     )
     clf.fit( X_train,y_train)
-    clf= clf.named_steps['logisticregression']
+    # clf= clf.named_steps['logisticregression']
     return np.append(clf.intercept_,clf.coef_)
 
 ########################################################################################################
@@ -264,12 +264,13 @@ Bootstrap es una técnica estadística de remuestreo que permite estimar la dist
     # print(y)
     X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42)
-    clf = make_pipeline(StandardScaler(), LogisticRegression(fit_intercept=True))
-
-    # clf = LogisticRegression(
-    #     max_iter= 60000,
-    # fit_intercept=True,# Incluir el término de sesgo (intercept)
-    # )
+    # clf = make_pipeline(StandardScaler(), LogisticRegression(fit_intercept=True))
+    st.dataframe(X_train)
+    st.dataframe(y_train)
+    clf = LogisticRegression(
+         max_iter= 60000,
+     fit_intercept=True,# Incluir el término de sesgo (intercept)
+     )
     clf.fit( X_train,y_train)
     precision = clf.score(X_test, y_test)
     y_pred = clf.predict(X_test)
