@@ -2,3 +2,4 @@ plotly== 5.20.0
 numpy
 scikit-learn
 pandas== 1.5.3
+statsmodels
