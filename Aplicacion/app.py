@@ -144,7 +144,7 @@ with boots:
     with Regresion_lineal_boots:
 
 
-        path=r'C:\Users\Francine Palacios\Desktop\Topicos Avanzados\Resampling\Data\Admission_Predict_Ver1.1.csv'
+        # path=r'C:\Users\Francine Palacios\Desktop\Topicos Avanzados\Resampling\Data\Admission_Predict_Ver1.1.csv'
         df_data= pd.read_csv(path)
         df_data = df_data.drop(columns=['Serial No.'])
         st.subheader("Entrenamiento")
@@ -171,7 +171,7 @@ with boots:
             st.warning("Seleccione parametros de entrenamiento")
     with Regresion_logistica_boots:
             
-        path=r'C:\Users\Francine Palacios\Desktop\Topicos Avanzados\Resampling\Data\Admission_Predict_Ver1.1.csv'
+        # path=r'C:\Users\Francine Palacios\Desktop\Topicos Avanzados\Resampling\Data\Admission_Predict_Ver1.1.csv'
         df_data= pd.read_csv(path)
         df_data = df_data.drop(columns=['Serial No.'])
         st.subheader("Entrenamiento")
