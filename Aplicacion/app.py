@@ -5,6 +5,9 @@ from Jackknife_Regresion_logistica import jackknife_regresion_logistica
 from Jackknife_Regresion_lineal import jackknife_regresion_lineal
 from Bootstra_Regresion_Lineal import bootstrap_regresion_lineal
 from Bootstra_Regresion_Logistica import bootstrap_regresion_logistica
+from Informacion_Jackknife import info_jackknife
+
+from Boostrap_informacion import booststrap_info
 import pandas as pd
 
 import numpy as np
@@ -101,38 +104,97 @@ with Analisis:
 with jackknif:
     # jackknife_regresion_logistica(df_data)
     st.subheader("Entrenamiento")
-    with st.expander("Parametros para el entrenamiento"):
-        test_s= st.slider("¿cuanto de dato de testeo?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
-        Chance= st.slider("¿Para el entrenamiento (Regresion Logistica) cuanto considera que se acepta en 'Chance of Admit'?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
-        XX=df_data[df_data.columns[:-1]]
-        y=df_data[df_data.columns[-1]]
-        st.markdown("Para el entrenamiento, que columnas quiere utilizar")
-        if st.checkbox("Todas aquellas"):
-            X=XX.copy()
-            pass
-        else:
-            col=st.multiselect('Seleccione las columnas que le interesan para el entrenamiento ', XX.columns)
-            X= XX[col]
-    
-    if X.empty:
-        st.warning("Seleccione parametros")
-        st.stop()
+    with st.form(key='my_form'):
+        with st.expander("Parametros para el entrenamiento"):
+            test_s= st.slider("¿cuanto de dato de testeo?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
+            Chance= st.slider("¿Para el entrenamiento (Regresion Logistica) cuanto considera que se acepta en 'Chance of Admit'?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
+            XX=df_data[df_data.columns[:-1]]
+            y=df_data[df_data.columns[-1]]
+            st.markdown("Para el entrenamiento, que columnas quiere utilizar")
+            if st.checkbox("Todas aquellas"):
+                X=XX.copy()
+                pass
+            else:
+                col=st.multiselect('Seleccione las columnas que le interesan para el entrenamiento ', XX.columns)
+                X= XX[col]
+            submit_button = st.form_submit_button('Entrenar')
 
-    Regresion_lineal_Jack, Regresgion_logistica_Jack = st.tabs(["Regresion Lineal","Regresion Logistica"])
+    Informacion_jack,Regresion_lineal_Jack, Regresgion_logistica_Jack = st.tabs(["Contexto","Regresion Lineal","Regresion Logistica"])
+    
+    with Informacion_jack:
+        info_jackknife()
     with Regresion_lineal_Jack:
-        jackknife_regresion_lineal(X,y, test_s)
+        if submit_button:
+            jackknife_regresion_lineal(X,y, test_s)
+        else: 
+            st.warning("Seleccione parametros de entrenamiento")
     with Regresgion_logistica_Jack:
-        y = np.where(y >= Chance, 1, 0)    #Realizaremos un cambio en la variable de interes, debido a restricciones del modelo
-        jackknife_regresion_logistica(X,y, test_s)
+        if submit_button:
+            y = np.where(y >= Chance, 1, 0)    #Realizaremos un cambio en la variable de interes, debido a restricciones del modelo
+            jackknife_regresion_logistica(X,y, test_s)
+        else:
+            st.warning("Seleccione parametros de entrenamiento")
 
 
 with boots:
-    Regresion_lineal_boots, Regresion_logistica_boots = st.tabs(['Regresion Lineal', "Regresion Logistica"])
-
+    Info_boots,Regresion_lineal_boots, Regresion_logistica_boots = st.tabs(["Informacion", 'Regresion Lineal', "Regresion Logistica"])
+    with Info_boots:
+        st.header("Bootstrap")
+        booststrap_info()
     with Regresion_lineal_boots:
-        bootstrap_regresion_lineal()
+
+
+        path=r'C:\Users\Francine Palacios\Desktop\Topicos Avanzados\Resampling\Data\Admission_Predict_Ver1.1.csv'
+        df_data= pd.read_csv(path)
+        df_data = df_data.drop(columns=['Serial No.'])
+        st.subheader("Entrenamiento")
+
+        with st.form(key='Boots_R_Lineal'):
+            with st.expander("Parametros para el entrenamiento"):
+                # test_s= st.slider("¿cuanto de dato de testeo?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
+                # Chance= st.slider("¿Para el entrenamiento (Regresion Logistica) cuanto considera que se acepta en 'Chance of Admit'?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
+                # XX=df_data[df_data.columns[:-1]]
+                # y=df_data[df_data.columns[-1]]
+                st.markdown("Para el entrenamiento, que columnas quiere utilizar")
+                if st.checkbox("Todas aquellas columnas para bootstrap"):
+                    columnas=df_data.columns
+                    pass
+                else:
+                    columnas=st.multiselect('Seleccione las columnas que le interesan para el entrenamiento de Boostrap, importante siempre tiene que estar la variable de interes al final ', df_data.columns)
+
+                numero = st.number_input('Ingresa el numero de Resamples', min_value=100, max_value=10000, step=100)
+                submit_button_boots_R_lineal = st.form_submit_button('Entrenar')
+            
+        if submit_button_boots_R_lineal:
+            bootstrap_regresion_lineal(df_data,columnas, numero)
+        else:
+            st.warning("Seleccione parametros de entrenamiento")
     with Regresion_logistica_boots:
-        bootstrap_regresion_logistica()
+            
+        path=r'C:\Users\Francine Palacios\Desktop\Topicos Avanzados\Resampling\Data\Admission_Predict_Ver1.1.csv'
+        df_data= pd.read_csv(path)
+        df_data = df_data.drop(columns=['Serial No.'])
+        st.subheader("Entrenamiento")
+        with st.form(key='Boots_R_Logistica'):
+            with st.expander("Parametros para el entrenamiento"):
+                # test_s= st.slider("¿cuanto de dato de testeo?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
+                Chance= st.slider("¿Para el entrenamiento (Regresion Logistica) cuanto considera que se aceptaa en 'Chance of Admit'?", min_value=0.1,max_value=1.0,value=0.5, step=0.1)
+                # XX=df_data[df_data.columns[:-1]]
+                # y=df_data[df_data.columns[-1]]
+                st.markdown("Para el entrenamiento, que columnas quiere utilizar")
+                if st.checkbox("Todas aquellas columnas para bootstrapp"):
+                    columnas=df_data.columns
+                    pass
+                else:
+                    columnas=st.multiselect('Seleccione las columnas que le interesan para el entrenamientoo de Boostrap, importante siempre tiene que estar la variable de interes al final ', df_data.columns)
+
+                numero = st.number_input('Ingresa el numero de Resampless', min_value=100, max_value=10000, step=100)
+                submit_button_boots_R_logistica = st.form_submit_button('Entrenar')
+            
+        if submit_button_boots_R_logistica:
+            bootstrap_regresion_logistica(df_data, Chance, columnas, numero)
+        else:
+            st.warning("Seleccione parametros para el entrenamiento")
 
 
 
