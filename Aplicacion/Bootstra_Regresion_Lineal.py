@@ -7,9 +7,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots  
 from sklearn.linear_model import LinearRegression
 from scipy.stats import bootstrap
-import seaborn as sns
 import statsmodels.api as sm
-import matplotlib.pyplot as plt 
 
 ########################################################################################################
 ################################### Funcion auxiliar ###################################################
